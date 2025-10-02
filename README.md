@@ -50,6 +50,3 @@ Note: This project is intentionally minimal. For production scenarios, implement
 - `src/com/example/passwordmanager/Vault.java` — vault persistence and JSON serialization
 - `src/com/example/passwordmanager/Crypto.java` — encryption and key derivation utilities
 - `src/com/example/passwordmanager/Credential.java` — credential model
-
-## License
-MIT
