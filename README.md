@@ -1,41 +1,55 @@
 # Minimal Java Password Manager
 
-Tech Stack: Java, File I/O, AES-GCM encryption.
+A small command-line password manager written in Java. Credentials are stored in an encrypted vault on disk using AES‑GCM with PBKDF2 key derivation.
 
-Features:
-- Create a vault file encrypted with a master password
-- Add, list, and get credentials (service, username, password)
-- Uses AES-GCM with PBKDF2 key derivation
+## Features
+- Encrypted vault bound to a master password
+- Add, list, and retrieve credentials (service, username, password)
+- Modern cryptography primitives (AES‑GCM, PBKDF2WithHmacSHA256)
 
-## Build & Run
+## Requirements
+- Java 8+ (tested on recent JDKs)
+- No external dependencies
 
-### Using `javac`
+## Build
+Compile the sources to `out`:
 ```bash
 javac -d out src/com/example/passwordmanager/*.java
-java -cp out com.example.passwordmanager.App
 ```
 
-### Using `jar`
+Create an optional JAR:
 ```bash
-javac -d out src/com/example/passwordmanager/*.java
 jar --create --file password-manager.jar -C out .
+```
+
+## Run
+Run the CLI:
+```bash
+java -cp out com.example.passwordmanager.App
+```
+Or with the JAR:
+```bash
 java -cp password-manager.jar com.example.passwordmanager.App
 ```
 
-## Usage
+On first run, you will be prompted for a vault file path (press Enter for the default `vault.dat`) and a master password. Use the following commands inside the application:
+- `add` — add a credential
+- `list` — list service names
+- `get` — display username and password for a service
+- `exit` — quit
 
-On first run, you'll be prompted to create or open a vault file.
+## Security
+- AES‑GCM with a random 12‑byte IV per encryption and a 128‑bit authentication tag
+- PBKDF2WithHmacSHA256 with 120,000 iterations to derive a 256‑bit key from the master password
+- The vault stores a JSON payload that is encrypted as a whole
 
-Commands inside the app:
-- `add` to add a credential
-- `list` to list services
-- `get` to retrieve username/password for a service
-- `exit` to quit
+Note: This project is intentionally minimal. For production scenarios, implement secure input handling, robust JSON parsing, and secret hygiene.
 
-Vault file is stored at `vault.dat` in the working directory by default.
+## Project Structure
+- `src/com/example/passwordmanager/App.java` — CLI entry point
+- `src/com/example/passwordmanager/Vault.java` — vault persistence and JSON serialization
+- `src/com/example/passwordmanager/Crypto.java` — encryption and key derivation utilities
+- `src/com/example/passwordmanager/Credential.java` — credential model
 
-## Security Notes
-- AES-GCM with random 12-byte IV per encryption
-- PBKDF2WithHmacSHA256 with 120,000 iterations for key derivation
-- Credentials are stored as JSON and encrypted as a whole
-- This is a minimal demo; for production use, consider secure input handling and better secret management
+## License
+MIT
