@@ -1,0 +1,13 @@
+/.idea/
+/.vscode/
+/out/
+/build/
+/.DS_Store
+/target/
+/*.class
+/*.jar
+/**/.DS_Store
+/.gradle/
+/.mvn/
+/_site/
+/.env
